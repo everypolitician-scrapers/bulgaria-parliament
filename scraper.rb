@@ -108,6 +108,7 @@ def scrape_person(i)
     data = person.merge(t)
     data[:party] = data[:party].sub('Parliamentary Group of ','').sub('Independent Members of Parliament', 'Independent') 
     data[:term] = data[:term][/^(\d+)/, 1] rescue binding.pry
+    puts "%s = %s" % [data[:id], data[:party]]
     ScraperWiki.save_sqlite([:id, :term, :party, :start_date], data)
   end
 end
@@ -115,5 +116,7 @@ end
 rows = ScraperWiki.select("DISTINCT(id) from 'data' WHERE party LIKE 'Parliamentary Group%'")
 rows.map { |r| r['id'] }.each do |i|
 # (1..2650).each do |i|
+  puts "Deleting #{i}"
+  ScraperWiki.sqliteexecute('DELETE FROM data WHERE id = ?', i)
   scrape_person(i)
 end
