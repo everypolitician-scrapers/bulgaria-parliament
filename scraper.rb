@@ -112,6 +112,8 @@ def scrape_person(i)
   end
 end
 
-(1..2650).each do |i|
+rows = ScraperWiki.select("DISTINCT(id) from 'data' WHERE party LIKE 'Parliamentary Group%'")
+rows.map { |r| r['id'] }.each do |i|
+# (1..2650).each do |i|
   scrape_person(i)
 end
