@@ -58,10 +58,25 @@ def memberships_from(mems)
   }.sort_by { |t| t[:start_date] }
 end
 
+def name_parts(noko,lang)
+  first_name = noko.xpath('//Names/FirstName/@value').text
+  sir_name = noko.xpath('//Names/FirstName/@value').text
+  family_name = noko.xpath('//Names/FamilyName/@value').text
+  return { 
+    "name__#{lang}" => "#{first_name} #{sir_name} #{family_name}".tidy,
+    "sort_name__#{lang}" => "#{family_name} #{first_name}".tidy,
+    "family_name__#{lang}" => family_name,
+    "given_name__#{lang}" => first_name,
+  }
+end
+
 def scrape_person(i)
-  url = "http://www.parliament.bg/export.php/en/xml/MP/#{i}"
-  noko = noko_for(url)
-  return if noko.xpath("//schema/Profile/Names").size.zero?
+  url_en = "http://www.parliament.bg/export.php/en/xml/MP/#{i}"
+  url_bg = "http://www.parliament.bg/export.php/bg/xml/MP/#{i}"
+
+  noko = noko_for(url_en)
+  noko_bg = noko_for(url_bg)
+  return if noko_bg.xpath("//schema/Profile/Names").size.zero?
 
   mems = noko.xpath('//ParliamentaryStructure[ParliamentaryStructureType[@value="Members of National Assembly"] and ParliamentaryStructurePosition[@value="Member"]]')
   return unless mems.count >= 1
@@ -69,17 +84,13 @@ def scrape_person(i)
   groups = noko.xpath('//ParliamentaryStructure[ParliamentaryStructureType[@value="Parliamentary Groups"]]')
   return unless groups.count >= 1
 
-  first_name = noko.xpath('//Names/FirstName/@value').text
-  sir_name = noko.xpath('//Names/FirstName/@value').text
-  family_name = noko.xpath('//Names/FamilyName/@value').text
+  name_en = name_parts(noko, 'en')
+  name_bg = name_parts(noko_bg, 'bg')
+
   area_id, area = noko.xpath('//Constituency/@value').text.split('-',2)
 
   person = { 
     id: i,
-    name: "#{first_name} #{sir_name} #{family_name}".tidy,
-    sort_name: "#{family_name}, #{first_name}".tidy,
-    family_name: family_name,
-    given_name: first_name,
     birth_date: date_from(noko.xpath('//DateOfBirth/@value').text),
     birth_place: noko.xpath('//PlaceOfBirth/@value').text.tidy,
     area: area,
@@ -87,7 +98,8 @@ def scrape_person(i)
     email: noko.xpath('//E-mail/@value').text,
     website: noko.xpath('//Website/@value').text,
     image: "http://www.parliament.bg/images/Assembly/#{i}.png",
-  }
+  }.merge(name_en).merge(name_bg)
+  person[:name] = [person["name__en"], person["name__bg"]].find { |n| !n.to_s.empty? }
 
   group_mems = memberships_from(groups)
   term_mems = memberships_from(mems)
