@@ -61,7 +61,7 @@ end
 
 def name_parts(noko,lang)
   first_name = noko.xpath('//Names/FirstName/@value').text
-  sir_name = noko.xpath('//Names/FirstName/@value').text
+  sir_name = noko.xpath('//Names/SirName/@value').text
   family_name = noko.xpath('//Names/FamilyName/@value').text
   return { 
     "name__#{lang}" => "#{first_name} #{sir_name} #{family_name}".tidy,
