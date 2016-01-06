@@ -84,18 +84,23 @@ def scrape_person(i)
   group_mems = memberships_from(groups)
   term_mems = memberships_from(mems)
   combos = CombinePopoloMemberships.combine(term: term_mems, party: group_mems)
-  combos.each do |t|
+
+  combos.map do |t|
     data = person.merge(t)
     data[:party] = data[:party].sub('Parliamentary Group of ','').sub('Independent Members of Parliament', 'Independent') 
     data[:term] = data[:term].to_i
-    ScraperWiki.save_sqlite([:id, :term, :party, :start_date], data)
+    data
   end
 end
 
 # rows = ScraperWiki.select("DISTINCT(id) from 'data' WHERE party LIKE 'Parliamentary Group%'")
 # rows.map { |r| r['id'] }.each do |i|
-(1..2650).each do |i|
+data = (1..2650).map do |i|
   warn i if (i % 50).zero?
   ScraperWiki.sqliteexecute('DELETE FROM data WHERE id = ?', i)
   scrape_person(i)
+end.flatten.compact
+
+data.each do |row|
+  ScraperWiki.save_sqlite([:id, :term, :party, :start_date], row)
 end
