@@ -85,6 +85,8 @@ def scrape_person(i)
   term_mems = memberships_from(mems)
   combos = CombinePopoloMemberships.combine(term: term_mems, party: group_mems)
 
+  person[:previous] = noko.xpath('//MemberOfPreviosNA/PreviosNA/@value').map(&:text).map(&:to_i).reject { |i| i < 39 }
+
   combos.map do |t|
     data = person.merge(t)
     data[:party] = data[:party].sub('Parliamentary Group of ','').sub('Independent Members of Parliament', 'Independent') 
@@ -102,5 +104,16 @@ data = (1..2650).map do |i|
 end.flatten.compact
 
 data.each do |row|
+  # IDs aren't consistent if the same person was in multiple terms
+  # However, we know which previous terms they were in, so find the ID
+  # they had the first time, and reuse it
+  prev = row.delete :previous
+  if !prev.empty?
+    if earliest = data.find { |r| r[:term] == prev.min && r[:name].downcase == row[:name].downcase }
+      row[:id] = earliest[:id]
+    else
+      warn "No match for #{row[:name]} in term #{prev.min}"
+    end
+  end
   ScraperWiki.save_sqlite([:id, :term, :party, :start_date], row)
 end
