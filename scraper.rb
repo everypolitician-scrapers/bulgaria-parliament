@@ -99,7 +99,7 @@ end
 # rows.map { |r| r['id'] }.each do |i|
 data = (1..2650).map do |i|
   warn i if (i % 50).zero?
-  ScraperWiki.sqliteexecute('DELETE FROM data WHERE id = ?', i)
+  ScraperWiki.sqliteexecute('DELETE FROM data WHERE id = ?', i) rescue nil
   scrape_person(i)
 end.flatten.compact
 
