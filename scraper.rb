@@ -42,10 +42,10 @@ def name_parts(noko,lang)
   sir_name = noko.xpath('//Names/SirName/@value').text
   family_name = noko.xpath('//Names/FamilyName/@value').text
   return { 
-    "name__#{lang}" => "#{first_name} #{sir_name} #{family_name}".tidy,
-    "sort_name__#{lang}" => "#{family_name} #{first_name}".tidy,
-    "family_name__#{lang}" => family_name,
-    "given_name__#{lang}" => first_name,
+    "name__#{lang}".to_sym => "#{first_name} #{sir_name} #{family_name}".tidy,
+    "sort_name__#{lang}".to_sym => "#{family_name} #{first_name}".tidy,
+    "family_name__#{lang}".to_sym => family_name,
+    "given_name__#{lang}".to_sym => first_name,
   }
 end
 
