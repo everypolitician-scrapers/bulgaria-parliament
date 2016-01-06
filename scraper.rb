@@ -79,7 +79,7 @@ def scrape_person(i)
     image: "http://www.parliament.bg/images/Assembly/#{i}.png",
     source: url_bg,
   }.merge(name_en).merge(name_bg)
-  person[:name] = [person["name__en"], person["name__bg"]].find { |n| !n.to_s.empty? }
+  person[:name] = person[:name__bg]
 
   group_mems = memberships_from(groups)
   term_mems = memberships_from(mems)
