@@ -87,7 +87,7 @@ def scrape_person(i)
   combos.each do |t|
     data = person.merge(t)
     data[:party] = data[:party].sub('Parliamentary Group of ','').sub('Independent Members of Parliament', 'Independent') 
-    data[:term] = data[:term][/^(\d+)/, 1] rescue binding.pry
+    data[:term] = data[:term].to_i
     ScraperWiki.save_sqlite([:id, :term, :party, :start_date], data)
   end
 end
