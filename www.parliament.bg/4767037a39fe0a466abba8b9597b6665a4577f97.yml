@@ -1,0 +1,36 @@
+---
+request:
+  method: get
+  uri: http://www.parliament.bg/export.php/en/xml/MP/98
+  body:
+    encoding: US-ASCII
+    string: ''
+  headers:
+    Accept-Encoding:
+    - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+    Accept:
+    - '*/*'
+    User-Agent:
+    - Ruby
+response:
+  status:
+    code: 200
+    message: OK
+  headers:
+    Date:
+    - Thu, 17 Nov 2016 10:50:06 GMT
+    Content-Length:
+    - '1080'
+    Content-Type:
+    - text/xml
+    Set-Cookie:
+    - TS0136e18c=015dc9ab6126c0ba8495782aded0002400f04ab0b153bb93d11542522bd0506a97f88ee10faf13a77603c9f3d2f324ab0f63c44d31;
+      Path=/
+    Vary:
+    - Accept-Encoding
+    Connection:
+    - Keep-Alive
+  body:
+    encoding: ASCII-8BIT
+  http_version: 
+recorded_at: Thu, 17 Nov 2016 10:50:06 GMT
