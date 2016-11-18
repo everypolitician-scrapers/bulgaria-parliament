@@ -18,13 +18,13 @@ response:
     message: OK
   headers:
     Date:
-    - Thu, 17 Nov 2016 10:36:15 GMT
+    - Fri, 18 Nov 2016 11:19:44 GMT
     Content-Length:
     - '1219'
     Content-Type:
     - text/xml
     Set-Cookie:
-    - TS0136e18c=015dc9ab61562a525cecbf6bcaba699bdfc0f549392024cf845d752268a351360df10abad7a2d76362a4d635cc4c99cbc74438943b;
+    - TS0136e18c=015dc9ab615a6cba0dc6a8c8bebb8a8af6bbb642de309446b9e6bc5e6b254abb551d8cef167f12b81ea0c7ad650af37821eacc6e4b;
       Path=/
     Vary:
     - Accept-Encoding
@@ -33,4 +33,4 @@ response:
   body:
     encoding: ASCII-8BIT
   http_version: 
-recorded_at: Thu, 17 Nov 2016 10:36:16 GMT
+recorded_at: Fri, 18 Nov 2016 11:19:45 GMT
