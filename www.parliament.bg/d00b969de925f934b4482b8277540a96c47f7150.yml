@@ -1,0 +1,29 @@
+---
+request:
+  method: get
+  uri: http://www.parliament.bg/export.php/en/xml/MP/535
+  body:
+    encoding: US-ASCII
+    string: ''
+  headers:
+    Accept-Encoding:
+    - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+    Accept:
+    - '*/*'
+    User-Agent:
+    - Ruby
+response:
+  status:
+    code: 200
+    message: OK
+  headers:
+    Date:
+    - Tue, 29 Nov 2016 15:46:54 GMT
+    Content-Length:
+    - '52'
+    Content-Type:
+    - text/xml
+  body:
+    encoding: UTF-8
+  http_version: 
+recorded_at: Tue, 29 Nov 2016 15:46:54 GMT
