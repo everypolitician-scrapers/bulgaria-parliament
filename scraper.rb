@@ -96,7 +96,7 @@ end
 
 # rows = ScraperWiki.select("DISTINCT(id) from 'data' WHERE party LIKE 'Parliamentary Group%'")
 # rows.map { |r| r['id'] }.each do |i|
-data = (1..2650).map do |i|
+data = (1..2950).map do |i|
   warn i if (i % 50).zero?
   ScraperWiki.sqliteexecute('DELETE FROM data WHERE id = ?', i) rescue nil
   scrape_person(i)
