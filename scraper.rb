@@ -88,7 +88,7 @@ def scrape_person(i)
 
   combos.map do |t|
     data = person.merge(t)
-    data[:party] = data[:party].sub('Parliamentary Group of ','').sub('Independent Members of Parliament', 'Independent') 
+    data[:party] = data[:party].tidy.sub('Parliamentary Group of ','').sub('Independent Members of Parliament', 'Independent')
     data[:term] = data[:term].to_i
     data
   end
